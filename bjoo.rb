@@ -23,6 +23,10 @@ class Card
 	def card_output
 		puts "#{self.rank} of #{self.suit}"
 	end
+
+	def to_s
+		card_output
+	end
 end
 
 
@@ -36,7 +40,11 @@ class Deck
 				@cards << Card.new(suit, rank)
 			end
 		end
-		@cards.shuffle!
+		scramble!
+	end
+
+	def scramble!
+		cards.shuffle!
 	end
 
 	def deal_one
@@ -48,37 +56,53 @@ class Deck
 	end
 end
 
-
-
-=begin
-class Player
-	def initalize
+module Hand
+	attr_accessor :cards
+	def initialize(cards)
+		
 	end
 
-	def number_of_players
+	def hand
+		self.cards	
 	end
 
-	def player_turn
+	def hit
+		card.pop
 	end
 
+	def stay
+		puts 'You decided to stay'
+	end
+
+	def bust
+		puts 'you bust'
+		#restart game
+	end
 end
+
+class Player 
+	include Hand
+	attr_accessor :name, :cards
+	def initalize(name)
+	@name = name 
+	@cards = cards
+	end
+end
+
 
 class Dealer
+	include Hand
 	def initialize
-	end
-
-	def dealer_turn
+	@name = "Dealer"
+	@cards = cards
 	end
 end
 
-class Hand
-end
 
 class Counter
 	def initialize(counter)
 	end
 end
 
-
-puts Deck.new
-=end
+player = Player.new("dave")
+deck = Deck.new
